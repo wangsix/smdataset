@@ -97,9 +97,10 @@ if __name__ == '__main__':
       notes_abs_times = calc_note_abs_times(offset, bpms, sm_notes[5])
       notes = {
         'type': sm_notes[0],
+        'desc_or_author': sm_notes[1],
         'difficulty_coarse': sm_notes[2],
         'difficulty_fine': sm_notes[3],
-        'wav_preview_fp': out_wav_fp,
+        'wav_preview_fp': os.path.abspath(out_wav_fp),
         'notes': notes_abs_times,
       }
       out_json['charts'].append(notes)
