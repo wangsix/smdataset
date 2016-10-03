@@ -1,5 +1,6 @@
 import fnmatch
 import json
+json.encoder.FLOAT_REPR = lambda f: ('%.6f' % f)
 import logging as smlog
 import os
 import sys
@@ -113,7 +114,11 @@ if __name__ == '__main__':
       num_charts += 1
 
     with open(out_json_fp, 'w') as out_f:
-      out_f.write(json.dumps(out_json))
+      try:
+        out_f.write(json.dumps(out_json))
+      except UnicodeDecodeError:
+        smlog.error('Unicode error in {}'.format(sm_fp))
+        continue
 
     print 'Parsed {} - {}: {} charts'.format(packname, smname, len(out_json['charts']))
   print 'Parsed {} stepfiles, {} charts, average difficulty {}'.format(len(sm_files), num_charts, avg_difficulty / num_charts)
