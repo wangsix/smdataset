@@ -7,7 +7,6 @@ import traceback
 
 from abstime import calc_note_abs_times
 from parse import parse_sm_txt
-from preview import write_preview_wav
 
 _ATTR_REQUIRED = ['title', 'offset', 'bpms', 'notes']
 def find_and_parse_sm_files(sm_dp, wildcard=''):
@@ -71,6 +70,8 @@ if __name__ == '__main__':
   (SM_DIR, DS_OUT_DIR) = sys.argv[1:3]
   OPTS = sys.argv[3:]
   GEN_PREVIEWS = 'genprevs' in OPTS
+  if GEN_PREVIEWS:
+    from preview import write_preview_wav
 
   sm_files = find_and_parse_sm_files(SM_DIR)
   avg_difficulty = 0.0
