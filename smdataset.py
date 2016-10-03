@@ -115,5 +115,5 @@ if __name__ == '__main__':
     with open(out_json_fp, 'w') as out_f:
       out_f.write(json.dumps(out_json))
 
-    print 'Parsed {} from {} and found {} charts'.format(smname, packname, len(out_json['charts']))
+    print 'Parsed {} - {}: {} charts'.format(packname, smname, len(out_json['charts']))
   print 'Parsed {} stepfiles, {} charts, average difficulty {}'.format(len(sm_files), num_charts, avg_difficulty / num_charts)
