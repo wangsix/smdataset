@@ -2,17 +2,17 @@
 Extracts note events and downbeats from Stepmania step files for music information retrieval tasks.
 
 # Introduction
-[Stepmania](http://www.stepmania.com/) has the potential to be a high-quality source of data for music event detection tasks as timing of events is critical to the game experienced. There is also an enormous amount of metadata available which is distributed with the actual audio. The game has an active community of human content creators making these event decisions manually. The game file format is not particularly convenient for MIR so this package links the events to absolute times in seconds and serializes this information as simple JSON files.
+[Stepmania](http://www.stepmania.com/) has the potential to be a high-quality source of data for music event detection tasks as timing of events is critical to the game experienced. There is an enormous amount of metadata available which is distributed alongside the actual audio. The game has an active community of human content creators making these event annotations manually. The game file format is not particularly convenient for MIR so this package links the annotations to absolute times in seconds and serializes this information as simple JSON files.
 
 # Usage
-Usage is extremely simplistic for now. To use, grab some music/stepfiles from [Stepmania Online](http://stepmaniaonline.net/). These are standardized releases that the community is actually using and the popular ones are generally high-quality. Recommended packs include:
+Usage is simplistic for now. To use, grab some music/stepfiles from [Stepmania Online](http://stepmaniaonline.net/). These are standardized releases that the community is currently using and the popular packs typically have high-quality annotations. Recommended packs include:
 
 * In The Groove X
 * Dance Dance Revolution (Official Konami Steps)
 * Community Keyboard Megapack - Volume X
 * Keyboard Mega Pack X
 
-Extract each of these to one songs directory. This directory should contain folders whose names are the names of a pack. These packs should contain folders whose names are the names of the songs in that pack. This structure is essential for the proper formatting of the output json directory.
+Extract each of these to one songs directory. This directory should contain folders whose names are the names of a pack. These packs should contain folders whose names are the names of the songs in that pack. This structure is essential for the proper formatting of the output JSON directory.
 
 The command to run the parsing is:
 
