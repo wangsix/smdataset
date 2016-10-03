@@ -49,7 +49,7 @@ def bpms_parser(x):
       raise ValueError('Descending list of beats in BPM list')
     beat_last = beat
   if len(bpms) != len(bpms_cleaned):
-    parlog.warning('One or more (beat, BPM) pairs begin on the same beat')
+    parlog.warning('One or more (beat, BPM) pairs begin on the same beat, using last listed')
 
   return bpms_cleaned
 def notes_parser(x):
@@ -75,7 +75,7 @@ def notes_parser(x):
     if len(measure) == 0:
       raise ValueError('Found measure with 0 notes')
     if not len(measure) in VALID_PULSES:
-      parlog.warning('Nonstandard subdivision detected')
+      parlog.warning('Nonstandard subdivision detected, allowing')
 
   return (str_parser(notes_split[0]),
     str_parser(notes_split[1]),
@@ -107,6 +107,7 @@ ATTR_NAME_TO_PARSER = {
   'displaybpm': str_parser,
   'selectable': bool_parser,
   'bgchanges': str_parser,
+  'bgchanges2': str_parser,
   'fgchanges': str_parser,
   'keysounds': str_parser,
   'musiclength': float_parser,
@@ -118,22 +119,26 @@ ATTR_MULTI = ['notes']
 def parse_sm_txt(sm_txt):
   attrs = {attr_name: [] for attr_name in ATTR_MULTI}
 
-  for attr_name, attr_value in re.findall(r'#([^:]*):([^;]*);', sm_txt):
+  for attr_name, attr_val in re.findall(r'#([^:]*):([^;]*);', sm_txt):
     attr_name = attr_name.lower()
 
     if attr_name not in ATTR_NAME_TO_PARSER:
-      parlog.warning('Found unexpected attribute {}:{}'.format(attr_name, attr_value))
+      parlog.warning('Found unexpected attribute {}:{}, ignoring'.format(attr_name, attr_val))
       continue
 
+    attr_val_parsed = ATTR_NAME_TO_PARSER[attr_name](attr_val)
     if attr_name in attrs:
       if attr_name not in ATTR_MULTI:
-        raise ValueError('Attribute {} defined multiple times'.format(attr_name))
-      attrs[attr_name].append(ATTR_NAME_TO_PARSER[attr_name](attr_value))
+        if attr_val_parsed == attrs[attr_name]:
+          continue
+        else:
+          raise ValueError('Attribute {} defined multiple times'.format(attr_name))
+      attrs[attr_name].append(attr_val_parsed)
     else:
-      attrs[attr_name] = ATTR_NAME_TO_PARSER[attr_name](attr_value)
+      attrs[attr_name] = attr_val_parsed
 
-  for attr_name, attr_value in attrs.items():
-    if attr_value == None or attr_value == []:
+  for attr_name, attr_val in attrs.items():
+    if attr_val == None or attr_val == []:
       del attrs[attr_name]
 
   return attrs
