@@ -17,8 +17,12 @@ Extract each of these to one songs directory. This directory should contain fold
 The command to run the parsing is ('false' instructs program not to create preview WAV files containing events).
 
 ```
-$ python smdataset.py ./path/to/songs/dir ./path/to/json/dir false
+$ python smdataset.py <SONGS_DIR> <OUT_DIR> <OPTS>
 ```
+
+Current options:
+
+* `genprevs`: If specified, generates a wav metronome file for each chart that should sync up with the music
 
 # Data
 The script outputs one JSON file representing all of the charts for a given song. A single song can have many charts, where a chart is a list of timed note events of varying difficulty/game mode. The following attributes are available in this JSON file:
@@ -31,7 +35,6 @@ The script outputs one JSON file representing all of the charts for a given song
   * `desc_or_author`: A free-text field reserved for a description or author for the chart. Can be useful as a single author might have more consistent difficulty assignments
   * `difficulty_coarse`: An author-assigned coarse difficulty; one of `Beginner`, `Easy`, `Medium`, `Hard`, `Challenge`, `Edit`
   * `difficulty_fine`: An author-assigned fine-grain difficulty; a numerical value where lower is easier and higher is harder. There is no science here and the numbers are extremely subjective
-  * `wav_preview_fp`: Path to the preview wav file generated for this chart for sanity checking the event timings
   * `notes`: List of `[Time (s), Event]` pairs. The length of the event should be consistent per chart and indicates the number of arrows in the game mode. For each arrow, one of the following values should occur. There is very little data for some of the arrow types, so it's probably a good idea to ignore them or interpret them as normal notes.
     * `0` (common): No note
     * `1` (common): Normal note
@@ -42,3 +45,4 @@ The script outputs one JSON file representing all of the charts for a given song
     * `K` (rare): Automatic keysound
     * `L` (rare): Lift note
     * `F` (rare): Fake note
+  * `preview_fp`: Path to the preview wav file generated for this chart for sanity checking the event timings (if `genprevs` specified) 
