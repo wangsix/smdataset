@@ -14,7 +14,7 @@ Usage is extremely simplistic for now. To use, grab some music/stepfiles from [S
 
 Extract each of these to one songs directory. This directory should contain folders whose names are the names of a pack. These packs should contain folders whose names are the names of the songs in that pack. This structure is essential for the proper formatting of the output json directory.
 
-The command to run the parsing is ('false' instructs program not to create preview WAV files containing events).
+The command to run the parsing is:
 
 ```
 $ python smdataset.py <SONGS_DIR> <OUT_DIR> <OPTS>
